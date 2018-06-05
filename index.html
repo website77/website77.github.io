@@ -4,33 +4,46 @@
   <meta charset="UTF-8">
   <title>my site</title>
   <style>
-    .bg1,.bg2 {
+  body, html {
+  /*height: 100%;*/
+  margin: 0;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  color: #777;
+  }
+
+  .bg1,.bg2,.bg3 {
 	  position: relative;
 	  opacity: 1;
 	  background-attachment: fixed;
 	  background-position: center;
 	  background-repeat: no-repeat;
-	  background-size: 100% 100%;
-	  padding: 30px;
+	  background-size: cover;   
 	}
 	.bg1 {
 	  background-image: url("images\\sunrise.JPG");
 	  min-height: 100%;	
+    padding: 6.5%;
 	}
 	.bg2 {
 	  background-image: url("images\\midday.JPG");
 	  min-height: 100%;	
+    padding: 6.5%;
 	}
+  .bg3 {
+    background-image: url("images\\sunrise.JPG");
+    min-height: 30%; 
+    padding: 30%;
+  }
 	.wrapper {
-      width: 20%;	  
-	  height: 20%;
-      margin: 120px auto;
+      width: 30%;
+      margin: 10% auto;
       padding: 30px;
       background :#333399;
-	  opacity: 0.75;
+	    opacity: 0.75;
+
 	}
     form {
-      margin: 15px auto;	  
+      margin: 15px auto;
     }
 	.lbl {
 		color: white;
@@ -58,17 +71,9 @@
       border-radius: 5px;
       padding: 12px;
     }
-	.caption {
-	  position: absolute;
-	  left: 0;
-	  top: 50%;
-	  width: 100%;
-	  text-align: center;
-	  color: #000;
-	}
-
+	
 	@media only screen and (max-device-width: 1024px) {
-		.bg1,.bg2 {
+		.bg1,.bg2,.bg3 {
 			background-attachment: scroll;
 		}
 	}
@@ -84,7 +89,7 @@
 <body>
   <div class="bg1">
   <div class="wrapper">
-   <form method="GET" action="home.html" onsubmit="return Validate()" name="vform" >
+   <form method="POST" action="home.html" onsubmit="return Validate()" name="vform" >
    	<div id="username_div">
    	  <label class="lbl">Username</label> <br>
    	  <input type="text" name="username" class="textInput">
@@ -112,14 +117,19 @@
   </div>
   <div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
   <h3 style="text-align:center; letter-spacing:10px; font-family:sans-serif; color:black">LOREM IPSUM</h3>
-  <p style="font-family:sans-serif; line-height:40px">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+  <p">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
   </div>
   <div class="bg2">
-	<div><p style="text-align:center; padding: 180px; font-family:sans-serif; font-size:25px; letter-spacing:10px; color: white;">BLAH</p></div>
+	<div><p style="text-align:center; padding: 180px; font-family:sans-serif; font-size:25px; letter-spacing:10px; color: white; position: center">BLAH</p></div>
   </div>
   <div style="position:relative;">
   <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
     <p>Click on register to go to next page. &copysubham saha 2018</p>
+  </div>
+  </div>
+  <div class="bg3">
+  <div style="position: absolute;  left: 0;  top: 50%;  width: 100%;  text-align: center;  color: #000;">
+    <span style="background-color: #111;  color: #fff;  padding: 18px;  font-size: 25px;  letter-spacing: 10px;">SUBSCRIBE</span>
   </div>
   </div>
 

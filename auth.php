@@ -7,7 +7,7 @@ if(isset($_POST['login'])){
 	}
 	else{
 		$_SESSION['Authenticated']=0;
-		header('Location: index.php');
+		header('Location: index.html');
 	}
 	session_write_close();
 	header('Location: home.php');
@@ -15,7 +15,7 @@ if(isset($_POST['login'])){
 
 if(isset($_GET['logout'])){
 	session_destroy();
-	header('Location: index.php');
+	header('Location: index.html');
 }
 
 ?>

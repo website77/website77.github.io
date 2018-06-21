@@ -1,0 +1,177 @@
+import numpy as np
+from gensim.models import Word2Vec
+from nltk import tokenize
+from string import punctuation
+import random
+
+
+pfile = "C:\\Users\LG\Documents\\ttposrev.txt"
+nfile = "C:\\Users\LG\Documents\\ttnegrev.txt"
+def loadinputdata(inputfile):
+    with open(inputfile, encoding="utf8") as f:
+        content = f.readlines()
+        contentstr = ''.join(content)
+        sentences = tokenize.sent_tokenize(contentstr)
+        punc = punctuation
+        for char in punc:
+            for a in range(len(sentences)):
+                sentstr = str(sentences[a])
+                sentstr = sentstr.replace(char, '')
+                sentences[a] = sentstr
+        sentences = [[i] for i in sentences]
+        for i in range(len(sentences)):
+            for line in sentences[i]:
+                sentences[i] = line.split()
+        words=[]
+        for i in range(len(sentences)):
+            for j in range(len(sentences[i])):
+                words.append(sentences[i][j])
+        words=list(set(words))
+        return sentences,words
+
+psentences,pwords=loadinputdata(pfile)
+nsentences,nwords=loadinputdata(nfile)
+
+def clean(sent): 
+    s=0
+    while s&ltlen(sent):
+        if len(sent[s])&lt2:
+            del sent[s]
+        else:
+            s=s+1
+
+clean(psentences)
+clean(nsentences)
+
+sentences=[]
+for i in range(len(psentences)):
+    sentences.append(psentences[i])
+for i in range(len(nsentences)):
+    sentences.append(nsentences[i])
+
+model = Word2Vec(sentences, min_count=1, size=100)
+words=list(model.wv.vocab)
+
+
+
+hidden=100
+
+
+wax=np.random.randn(hidden,100)
+waa=np.random.randn(hidden,hidden)
+wya=np.random.randn(1,hidden)
+ba=np.random.randn(hidden,1)
+by=np.random.randn(1,1)
+lr=0.001
+
+def sigmoid(x, derivative=False):
+  return x*(1-x) if derivative else 1/(1+np.exp(-x+0.5))
+def dertanh(x):
+    return 1-(x*x)
+    
+
+q=1
+for u in range(1000):
+    for a in range(2):
+        for b in range(len(sentences)):
+            porn=random.randint(0,1)
+            rl=np.zeros((1,1))
+            sentinput=[]
+            if porn==0:
+                rl[0][0]=0
+                c=random.randint(0,len(nsentences)-1)
+                sentinput=nsentences[c] 
+            if porn==1:
+                rl[0][0]=1
+                c=random.randint(0,len(psentences)-1)
+                sentinput=psentences[c]        
+            al=[]
+            x=[]; tx=[];
+            y=[]
+            al1=np.zeros((hidden,1))
+            al.append(al1)
+            TL=[]
+            dwax=np.zeros((hidden,100))
+            dwaa=np.zeros((hidden,hidden))
+            dwya=np.zeros((1,hidden))
+            dba = np.zeros((hidden,1))
+            dby = np.zeros((1,1))
+
+            for t in range(len(sentinput)):
+                zl=[model[sentinput[t]]]
+                xl=[]
+                for j in range(len(zl[0])):
+                    z=[]
+                    z.append(zl[0][j])
+                    xl.append(z)
+                x.append(xl)
+                tx.append(zl)
+                al2 = np.tanh(np.dot(waa,al1)+np.dot(wax,xl)+ba)    
+                yl=np.dot(wya,al2)+by
+                for i in range(len(yl)):
+                    yl[i]=sigmoid(yl[i],False)
+                al.append(al2)
+                y.append(yl)
+                al1=al2
+            for i in range(len(y[len(sentinput)-1])):
+                TL.append(rl[i]-y[len(sentinput)-1][i])
+
+
+            for t in range(len(sentinput)):
+                if t==(len(sentinput)-1):
+                    for i in range(len(y[t])):
+                        y[t][i]=sigmoid(y[t][i],True)
+                    gro=np.multiply(TL,y[t])
+                    for i in range(len(gro)):
+                        gro[i]=lr*gro[i]
+                    dby=dby+gro
+                    dwya=dwya+np.dot(gro,al[t+1].transpose())
+
+                AL=np.dot(wya.transpose(),TL)
+                dal=[]                
+                for i in range(len(al[t+1])):
+                    dal.append(dertanh(al[t+1][i]))
+                grh=np.multiply(AL,dal)
+                for i in range(len(grh)):
+                    grh[i]=lr*grh[i]
+                dba=dba+grh
+                dwax=dwax+np.dot(grh,tx[t])
+                dwaa=dwaa+np.dot(grh,al[t].transpose())
+    
+            
+            by=by+dby
+            ba=ba+dba
+            wya=wya+dwya
+            wax=wax+dwax
+            waa=waa+dwaa
+
+    z=[['Finally', 'an', 'ending', 'that', 'made', 'me', 'cry'],
+    ['It', 'could', 'have', 'been', 'a', 'lot', 'better'],
+    ['Nothing', 'could', 'be', 'any', 'more', 'worse'],
+    ['The', 'best', 'horror', 'film', 'till', 'date']]
+    print('set',q)
+    for ii in range(len(z)):
+        al1=np.zeros((hidden,1))
+        for w in range(len(z[ii])):
+            zl=[model[z[ii][w]]]
+            xl=[]
+            for j in range(len(zl[0])):
+                zz=[]
+                zz.append(zl[0][j])
+                xl.append(zz)
+
+            al2 = np.tanh(np.dot(waa,al1)+np.dot(wax,xl)+ba)    
+            yl=np.dot(wya,al2)+by
+            for i in range(len(yl)):
+                yl[i]=sigmoid(yl[i],False)
+            al1=al2
+        print(yl)
+    print("\n\n")
+    q=q+1
+    
+    
+
+
+
+
+
